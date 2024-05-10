@@ -1,0 +1,831 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.3.0.0-beta3.final\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props" Condition="Exists('..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.3.0.0-beta3.final\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props')" />
+  <Import Project="..\packages\Microsoft.NetFramework.Analyzers.3.0.0-beta3.final\build\Microsoft.NetFramework.Analyzers.props" Condition="Exists('..\packages\Microsoft.NetFramework.Analyzers.3.0.0-beta3.final\build\Microsoft.NetFramework.Analyzers.props')" />
+  <Import Project="..\packages\Microsoft.NetCore.Analyzers.3.0.0-beta3.final\build\Microsoft.NetCore.Analyzers.props" Condition="Exists('..\packages\Microsoft.NetCore.Analyzers.3.0.0-beta3.final\build\Microsoft.NetCore.Analyzers.props')" />
+  <Import Project="..\packages\Microsoft.CodeQuality.Analyzers.3.0.0-beta3.final\build\Microsoft.CodeQuality.Analyzers.props" Condition="Exists('..\packages\Microsoft.CodeQuality.Analyzers.3.0.0-beta3.final\build\Microsoft.CodeQuality.Analyzers.props')" />
+  <Import Project="..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.3.0.0-beta3.final\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props" Condition="Exists('..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.3.0.0-beta3.final\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B490AD40-418D-4596-87E0-1753CFC31CE7}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UDT_Term</RootNamespace>
+    <AssemblyName>UDT_Term</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ProductName>Univerisal Debug Terminal %28Total Vision%29</ProductName>
+    <PublisherName>Richard Payne</PublisherName>
+    <SuiteName>Univerisal Debug Terminal %28Total Vision%29</SuiteName>
+    <ApplicationRevision>10</ApplicationRevision>
+    <ApplicationVersion>4.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+    <NoWarn>CA1707;CA1823;CA1815;CA1806;CA1801;CA1307;C1034;CA2213;CA1303;CA1822;CA1031;CA1305;CA1062;CA1707;CA2000;CA1820;CA1051</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>0A40239562CDBC61400F1FB37B19D58AF6B69A8E</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>UDT_Term_FFT_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\MiniCanMaster.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\Rule Sets\MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\MiniCanMaster.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>UDT_Term_FFT.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'FinalRelease|AnyCPU'">
+    <OutputPath>bin\FinalRelease\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'FinalRelease|x86'">
+    <OutputPath>bin\x86\FinalRelease\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>RGP_services.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'FinalRelease|x64'">
+    <OutputPath>bin\x64\FinalRelease\</OutputPath>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.Core.3.5.0-beta\lib\net45\AWSSDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK.S3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.S3.3.5.0-beta\lib\net45\AWSSDK.S3.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK.SimpleNotificationService, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.SimpleNotificationService.3.5.0-beta\lib\net45\AWSSDK.SimpleNotificationService.dll</HintPath>
+    </Reference>
+    <Reference Include="FTD2XX_NET">
+      <HintPath>040_USB\FTDI\FTD2XX_NET.dll</HintPath>
+    </Reference>
+    <Reference Include="Json, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c6752e45808247c2, processorArchitecture=MSIL">
+      <HintPath>..\packages\JSON.1.0.1\lib\net40\Json.dll</HintPath>
+    </Reference>
+    <Reference Include="LibUsbDotNet">
+      <HintPath>040_USB\LibUsbDotNet\LibUsbDotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="presentationframework.aero" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.8.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.8.1\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.8.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.8.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.8.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.8.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.8.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.8.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.8.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.8.1\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="020_About\TVB_About_Box.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="020_About\TVB_About_Box.Designer.cs">
+      <DependentUpon>TVB_About_Box.cs</DependentUpon>
+    </Compile>
+    <Compile Include="020_About\BG_About_Box.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="020_About\BG_About_Box.Designer.cs">
+      <DependentUpon>BG_About_Box.cs</DependentUpon>
+    </Compile>
+    <Compile Include="010_XML\AppConfigWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="010_XML\AppConfigWindow.Designer.cs">
+      <DependentUpon>AppConfigWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="030_FFT\FFT_HelpAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="030_FFT\FFT_HelpAbout.Designer.cs">
+      <DependentUpon>FFT_HelpAbout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="020_About\ADT_About_Box.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="020_About\ADT_About_Box.Designer.cs">
+      <DependentUpon>ADT_About_Box.cs</DependentUpon>
+    </Compile>
+    <Compile Include="035_Scope\RiscyScope.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="035_Scope\RiscyScope.Designer.cs">
+      <DependentUpon>RiscyScope.cs</DependentUpon>
+    </Compile>
+    <Compile Include="036_FluxGateII\FluxGateII.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="036_FluxGateII\FluxGateII.Designer.cs">
+      <DependentUpon>FluxGateII.cs</DependentUpon>
+    </Compile>
+    <Compile Include="040_USB\USB_Message_Manager.cs" />
+    <Compile Include="050_ClientCode\ClientCode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="050_ClientCode\ClientCode.Designer.cs">
+      <DependentUpon>ClientCode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="050_MiniPort\ADC24AD7794.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="050_MiniPort\ADC24AD7794.Designer.cs">
+      <DependentUpon>ADC24AD7794.cs</DependentUpon>
+    </Compile>
+    <Compile Include="050_MiniPort\TabLoggerCVS.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="050_MiniPort\TabLoggerCVS.Designer.cs">
+      <DependentUpon>TabLoggerCVS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="050_MiniPort\ADIS16460.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="050_MiniPort\ADIS16460.Designer.cs">
+      <DependentUpon>ADIS16460.cs</DependentUpon>
+    </Compile>
+    <Compile Include="050_MiniPort\FLC3.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="050_MiniPort\FLC3.Designer.cs">
+      <DependentUpon>FLC3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="050_MiniPort\ADCSupport.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="050_MiniPort\ADCSupport.Designer.cs">
+      <DependentUpon>ADCSupport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="051_EMSProject\ESMBlockSeqNVM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="051_EMSProject\ESMBlockSeqNVM.Designer.cs">
+      <DependentUpon>ESMBlockSeqNVM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="051_EMSProject\ESMConfigNVM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="051_EMSProject\ESMConfigNVM.Designer.cs">
+      <DependentUpon>ESMConfigNVM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="071_CanBus\CanBus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="071_CanBus\CanBus.Designer.cs">
+      <DependentUpon>CanBus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="071_CanBus\CanConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="071_CanBus\CanConfig.Designer.cs">
+      <DependentUpon>CanConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="071_CanBus\CanPCAN.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="071_CanBus\CanPCAN.designer.cs">
+      <DependentUpon>CanPCAN.cs</DependentUpon>
+    </Compile>
+    <Compile Include="071_CanBus\PCANBasic.cs" />
+    <Compile Include="082_EEPROM\EEPROMExportImport.cs" />
+    <Compile Include="082_EEPROM\EEpromTools.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="082_EEPROM\EEpromTools.Designer.cs">
+      <DependentUpon>EEpromTools.cs</DependentUpon>
+    </Compile>
+    <Compile Include="082_EEPROM\EE_SectorErase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="082_EEPROM\EE_SectorErase.Designer.cs">
+      <DependentUpon>EE_SectorErase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="037_HMR2300\HRM2300.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="037_HMR2300\HRM2300.Designer.cs">
+      <DependentUpon>HRM2300.cs</DependentUpon>
+    </Compile>
+    <Compile Include="039_Survey\Calibration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="039_Survey\Calibration.Designer.cs">
+      <DependentUpon>Calibration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="039_Survey\Survey.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="039_Survey\Survey.Designer.cs">
+      <DependentUpon>Survey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="090-UDT-Tools\BG-ClientData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="090-UDT-Tools\BG-ClientData.Designer.cs">
+      <DependentUpon>BG-ClientData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="090-UDT-Tools\BG_Battery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="090-UDT-Tools\BG_Battery.Designer.cs">
+      <DependentUpon>BG_Battery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="090-UDT-Tools\BG_ToolSerial.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="090-UDT-Tools\BG_ToolSerial.Designer.cs">
+      <DependentUpon>BG_ToolSerial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="090-UDT-Tools\BG_ReportViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="090-UDT-Tools\BG_ReportViewer.designer.cs">
+      <DependentUpon>BG_ReportViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="090-UDT-Tools\BG_Service.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="090-UDT-Tools\BG_Service.Designer.cs">
+      <DependentUpon>BG_Service.cs</DependentUpon>
+    </Compile>
+    <Compile Include="090-UDT-Tools\BG_SurveyDirectional.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="090-UDT-Tools\BG_SurveyDirectional.designer.cs">
+      <DependentUpon>BG_SurveyDirectional.cs</DependentUpon>
+    </Compile>
+    <Compile Include="090-UDT-Tools\BG_Driller.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="090-UDT-Tools\BG_Driller.designer.cs">
+      <DependentUpon>BG_Driller.cs</DependentUpon>
+    </Compile>
+    <Compile Include="030_FFT\FFTWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="030_FFT\FFTWindow.Designer.cs">
+      <DependentUpon>FFTWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="030_FFT\FFT_DataEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="030_FFT\FFT_DataEditor.Designer.cs">
+      <DependentUpon>FFT_DataEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="060_LoggerCVS\ImportDataCVS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="060_LoggerCVS\ImportDataCVS.Designer.cs">
+      <DependentUpon>ImportDataCVS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="060_LoggerCVS\LoggerCSVX.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="060_LoggerCVS\LoggerCSVX.Designer.cs">
+      <DependentUpon>LoggerCSVX.cs</DependentUpon>
+    </Compile>
+    <Compile Include="040_USB\Serial_Monitor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="040_USB\Serial_Monitor.designer.cs">
+      <DependentUpon>Serial_Monitor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="040_USB\FTDI_DataView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="040_USB\FTDI_DataView.designer.cs">
+      <DependentUpon>FTDI_DataView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="090-UDT-Tools\BG_Orientation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="090-UDT-Tools\BG_Orientation.Designer.cs">
+      <DependentUpon>BG_Orientation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="090-UDT-Tools\SNADNetwork.cs" />
+    <Compile Include="900_Common\DialogSupport.cs" />
+    <Compile Include="900_Common\MicroLibrary.cs" />
+    <Compile Include="900_Common\PopUpEntryBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="900_Common\PopUpEntryBox.Designer.cs">
+      <DependentUpon>PopUpEntryBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="900_Common\RiscyMMTimer.cs" />
+    <Compile Include="900_Common\RiscyTimerII.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="900_Common\RiscyTimerII.Designer.cs">
+      <DependentUpon>RiscyTimerII.cs</DependentUpon>
+    </Compile>
+    <Compile Include="900_Common\UDTProtocol.cs" />
+    <Compile Include="900_Common\GlobalBase.cs" />
+    <Compile Include="100_DFMP\DMFProtocol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="100_DFMP\DMFProtocol.Designer.cs">
+      <DependentUpon>DMFProtocol.cs</DependentUpon>
+    </Compile>
+    <Compile Include="090-UDT-Tools\EE_DownloadSurvey.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="090-UDT-Tools\EE_DownloadSurvey.Designer.cs">
+      <DependentUpon>EE_DownloadSurvey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="900_Common\RiscyTimer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="900_Common\RiscyTimer.Designer.cs">
+      <DependentUpon>RiscyTimer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="900_Common\TabPageTransparent.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="900_Common\FlexibleMessageBox.cs" />
+    <Compile Include="090-UDT-Tools\BGMasterSetup.cs" />
+    <Compile Include="910_Err_Report\ERR_Report.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Helpers\General.cs" />
+    <Compile Include="MainProg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainProg.designer.cs">
+      <DependentUpon>MainProg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="900_Common\Program.cs" />
+    <Compile Include="081_Help\PDFViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="081_Help\PDFViewer.Designer.cs">
+      <DependentUpon>PDFViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="050_MiniPort\MiniAD7794Setup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="050_MiniPort\MiniAD7794Setup.Designer.cs">
+      <DependentUpon>MiniAD7794Setup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Multimedia\Timer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="040_USB\USBComPortManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="040_USB\USBComPortManager.Designer.cs">
+      <DependentUpon>USBComPortManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="040_USB\USB_VCOM_Comm.cs" />
+    <Compile Include="090_ResCalc\ResCalc_DGV_Result.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="090_ResCalc\ResCalc_DGV_Result.Designer.cs">
+      <DependentUpon>ResCalc_DGV_Result.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Static\Constants.cs" />
+    <Compile Include="Static\ExtensionMethods.cs" />
+    <EmbeddedResource Include="010_XML\AppConfigWindow.resx">
+      <DependentUpon>AppConfigWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="020_About\TVB_About_Box.resx">
+      <DependentUpon>TVB_About_Box.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="020_About\BG_About_Box.resx">
+      <DependentUpon>BG_About_Box.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="030_FFT\FFT_HelpAbout.resx">
+      <DependentUpon>FFT_HelpAbout.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="020_About\ADT_About_Box.resx">
+      <DependentUpon>ADT_About_Box.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="035_Scope\RiscyScope.resx">
+      <DependentUpon>RiscyScope.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="036_FluxGateII\FluxGateII.resx">
+      <DependentUpon>FluxGateII.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="050_ClientCode\ClientCode.resx">
+      <DependentUpon>ClientCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="050_MiniPort\ADC24AD7794.resx">
+      <DependentUpon>ADC24AD7794.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="050_MiniPort\TabLoggerCVS.resx">
+      <DependentUpon>TabLoggerCVS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="050_MiniPort\ADIS16460.resx">
+      <DependentUpon>ADIS16460.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="050_MiniPort\FLC3.resx">
+      <DependentUpon>FLC3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="050_MiniPort\ADCSupport.resx">
+      <DependentUpon>ADCSupport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="050_MiniPort\MiniAD7794Setup.resx">
+      <DependentUpon>MiniAD7794Setup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="051_EMSProject\ESMBlockSeqNVM.resx">
+      <DependentUpon>ESMBlockSeqNVM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="051_EMSProject\ESMConfigNVM.resx">
+      <DependentUpon>ESMConfigNVM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="071_CanBus\CanBus.resx">
+      <DependentUpon>CanBus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="071_CanBus\CanPCAN.resx">
+      <DependentUpon>CanPCAN.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="082_EEPROM\EEpromTools.resx">
+      <DependentUpon>EEpromTools.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="082_EEPROM\EE_SectorErase.resx">
+      <DependentUpon>EE_SectorErase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="037_HMR2300\HRM2300.resx">
+      <DependentUpon>HRM2300.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="039_Survey\Calibration.resx">
+      <DependentUpon>Calibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="039_Survey\Survey.resx">
+      <DependentUpon>Survey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="030_FFT\FFTWindow.resx">
+      <DependentUpon>FFTWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="030_FFT\FFT_DataEditor.resx">
+      <DependentUpon>FFT_DataEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="060_LoggerCVS\ImportDataCVS.resx">
+      <DependentUpon>ImportDataCVS.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="040_USB\FTDI_DataView.resx">
+      <DependentUpon>FTDI_DataView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="060_LoggerCVS\LoggerCSVX.resx">
+      <DependentUpon>LoggerCSVX.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="090-UDT-Tools\BG-ClientData.resx">
+      <DependentUpon>BG-ClientData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="090-UDT-Tools\BG_Battery.resx">
+      <DependentUpon>BG_Battery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="090-UDT-Tools\BG_ToolSerial.resx">
+      <DependentUpon>BG_ToolSerial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="090-UDT-Tools\BG_ReportViewer.resx">
+      <DependentUpon>BG_ReportViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="090-UDT-Tools\BG_Service.resx">
+      <DependentUpon>BG_Service.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="090-UDT-Tools\BG_SurveyDirectional.resx">
+      <DependentUpon>BG_SurveyDirectional.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="090-UDT-Tools\BG_Driller.resx">
+      <DependentUpon>BG_Driller.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="100_DFMP\DMFProtocol.resx">
+      <DependentUpon>DMFProtocol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="090-UDT-Tools\EE_DownloadSurvey.resx">
+      <DependentUpon>EE_DownloadSurvey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="090-UDT-Tools\BG_Orientation.resx">
+      <DependentUpon>BG_Orientation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="900_Common\PopUpEntryBox.resx">
+      <DependentUpon>PopUpEntryBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="900_Common\RiscyTimerII.resx">
+      <DependentUpon>RiscyTimerII.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="900_Common\RiscyTimer.resx">
+      <DependentUpon>RiscyTimer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainProg.resx">
+      <DependentUpon>MainProg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="081_Help\PDFViewer.resx">
+      <DependentUpon>PDFViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="040_USB\Serial_Monitor.resx">
+      <DependentUpon>Serial_Monitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="040_USB\USBComPortManager.resx">
+      <DependentUpon>USBComPortManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="090_ResCalc\ResCalc_DGV_Result.resx">
+      <DependentUpon>ResCalc_DGV_Result.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="PDFBin\700137_BGDriller_QuickUserGuide_R030.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Properties\DataSources\Configuration.datasource" />
+    <None Include="Properties\DataSources\ScopeDataOp.datasource" />
+    <None Include="Properties\DataSources\SerialConfiguration.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="900_Common\Tools.cs" />
+    <Compile Include="040_USB\USB_FTDI_Comm.cs" />
+    <None Include="Resources\App.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="UDT_Term_FFT_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.4.5">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 4.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="038_ADIS16460\" />
+    <Folder Include="obj\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="040_USB\FTDI\ftd2xx.dll" />
+    <Content Include="040_USB\FTDI\ftd2xx64.dll" />
+    <Content Include="ftd2xx.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ftd2xx64.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\AD7794\Hardware0.jpg" />
+    <Content Include="Resources\AD7794\HardwareR.jpg" />
+    <Content Include="Resources\AD7794\Hardware1.jpg" />
+    <Content Include="Resources\AD7794\Hardware2.jpg" />
+    <Content Include="Resources\AD7794\Hardware3.jpg" />
+    <Content Include="Resources\AD7794\Hardware4.jpg" />
+    <Content Include="Resources\AD7794\Hardware5.jpg" />
+    <Content Include="Resources\AD7794\IntTemp.jpg" />
+    <Content Include="Resources\BG_MainPage-Blank-1B.jpg" />
+    <None Include="Resources\IntTemp.jpg" />
+    <None Include="Resources\FCL30_Diagram1A.jpg" />
+    <None Include="Resources\FCL30_Diagram1B.jpg" />
+    <None Include="Resources\FCL30_Diagram1C.jpg" />
+    <Content Include="Resources\FCL307\FCL30_Diagram1A.jpg" />
+    <Content Include="Resources\FCL307\FCL30_Diagram1B.jpg" />
+    <Content Include="Resources\FCL307\FCL30_Diagram1C.jpg" />
+    <None Include="Resources\FCL30_Diagram1A1.jpg" />
+    <None Include="Resources\FCL30_Diagram1B1.jpg" />
+    <None Include="Resources\FCL30_Diagram1C1.jpg" />
+    <Content Include="Resources\MainPage-1A.jpg" />
+    <Content Include="Resources\MainPage-Blank-1B.jpg" />
+    <None Include="Resources\MainPageTVB-1B.jpg" />
+    <None Include="Resources\MainPageTVBBlank-1B.jpg" />
+    <None Include="Resources\MainPageTVB-1C.jpg" />
+    <None Include="Resources\MainPageTVB-1D.jpg" />
+    <None Include="Resources\MainPageTVB1D.jpg" />
+    <Content Include="Resources\RGP_Services.bmp" />
+    <Content Include="Resources\RGP_services.ico" />
+    <None Include="Resources\Test.bmp" />
+    <None Include="Resources\TabLoggerCVS\TabLoggerCVS_Diagram1.jpg" />
+    <Content Include="RGP_services.ico" />
+    <Content Include="Schema\ConfigApp.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="servicerunning.ico" />
+    <Content Include="services.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\AWSSDK.S3.3.5.0-beta\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
+    <Analyzer Include="..\packages\AWSSDK.SimpleNotificationService.3.5.0-beta\analyzers\dotnet\cs\AWSSDK.SimpleNotificationService.CodeAnalysis.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.3.0.0-beta3.final\analyzers\dotnet\cs\Microsoft.CodeAnalysis.VersionCheckAnalyzer.resources.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.3.0.0-beta3.final\analyzers\dotnet\Microsoft.CodeAnalysis.VersionCheckAnalyzer.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeQuality.Analyzers.3.0.0-beta3.final\analyzers\dotnet\cs\Humanizer.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeQuality.Analyzers.3.0.0-beta3.final\analyzers\dotnet\cs\Microsoft.CodeQuality.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeQuality.Analyzers.3.0.0-beta3.final\analyzers\dotnet\cs\Microsoft.CodeQuality.CSharp.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.NetCore.Analyzers.3.0.0-beta3.final\analyzers\dotnet\cs\Microsoft.NetCore.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.NetCore.Analyzers.3.0.0-beta3.final\analyzers\dotnet\cs\Microsoft.NetCore.CSharp.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.NetFramework.Analyzers.3.0.0-beta3.final\analyzers\dotnet\cs\Microsoft.NetFramework.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.NetFramework.Analyzers.3.0.0-beta3.final\analyzers\dotnet\cs\Microsoft.NetFramework.CSharp.Analyzers.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.3.0.0-beta3.final\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.3.0.0-beta3.final\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeQuality.Analyzers.3.0.0-beta3.final\build\Microsoft.CodeQuality.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeQuality.Analyzers.3.0.0-beta3.final\build\Microsoft.CodeQuality.Analyzers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.NetCore.Analyzers.3.0.0-beta3.final\build\Microsoft.NetCore.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.NetCore.Analyzers.3.0.0-beta3.final\build\Microsoft.NetCore.Analyzers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.NetFramework.Analyzers.3.0.0-beta3.final\build\Microsoft.NetFramework.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.NetFramework.Analyzers.3.0.0-beta3.final\build\Microsoft.NetFramework.Analyzers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.3.0.0-beta3.final\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.3.0.0-beta3.final\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

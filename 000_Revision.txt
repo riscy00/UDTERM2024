@@ -1,0 +1,31 @@
+1-Aug-2014 Rev 1C release
+---------------------------
+New Feature
+-----------
+(1) Logger window: Console Append into single Filename as well as discerte filename (retained feature)
+    If enable, it operates operate alongside with Console discrete append filename (with timestamp). 
+	The purpose of this is it eliminate stitching between discrete filename prior to transfer into excel. This can save lot of effort. 
+	To enable this, goto logger window within Tools top menu and check <Enable Append One Filename>
+	NB: This option by default disabled
+
+(2) Up and Down cursor key to recall previous command is now supported. This speed up typing repeat commands. this work on main window.
+
+(3) The Cut/Copy/Paste on main window is reprogrammed and functional (more reliable). Untested in Logger window. Just select area and copy into clipboard for other app.
+
+(4) If there is more than two FTDI device, user will have choice to select by checking message box and select YES or NO (which is quick way to write code). 
+    Up to 5 device is supported.
+ 
+ NB: It is now possible to open discrete ADT logger application for multi board as part of  oven testing  
+
+Bug Fixed
+---------
+None.
+
+------------
+Further work
+------------
+(1) Can protocol to be addeed which based on RX/TX in UART fashion via fixed protocol in slave device. Include SNAD (device address support for multiple board testing). MC team.
+(2) Directional Display Panel which display accel and magnetometer, logging and inclination/azimuth for product debugging and calibration. This is new window RP
+(3) Setup SNAD concept for multi-board as part of oven screening procedure (in UART). This can take few day to implement. RP.
+
+

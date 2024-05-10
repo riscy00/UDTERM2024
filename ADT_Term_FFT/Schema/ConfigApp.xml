@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Base>
+  <Config>
+    <some_config_value>86400</some_config_value>
+    <CompanyID>t_2</CompanyID>
+    <CompanyName>"ZMDI"</CompanyName>
+    <test1>11111</test1>
+    <test2>22222</test2>
+    <test3>33333</test3>
+  </Config>
+  
+  <test_head>
+    <test5>55555</test5>
+    <test6>66666</test6>
+  </test_head>
+  
+  <Company_Name>
+    <Name>"ADT"</Name>
+    <Name>"ZMDI"</Name>
+    <Name>"BGDS"</Name>
+    <Name>"EFT"</Name>    
+  </Company_Name>
+  
+  <Company_ID>
+    <Name>0</Name>
+    <Name>10</Name>
+    <Name>20</Name>
+    <Name>40</Name>
+  </Company_ID>
+</Base>
+
