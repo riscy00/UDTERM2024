@@ -104,6 +104,7 @@ namespace UDT_Term_FFT
             this.jELogMemTransferTrapErrorInCaseOfMissingFormatheaderFrameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.jEChangeBGSurveyTabForToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bFixedTVBThemeRegardlessOfOptionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tASKHaveNewSTCCommandForMetaDataSTARTSTOPLastFrameAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tASKSNADWorkToFinishOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nBFixedBugForDataConversionBetweenLoggerCVSToLogMemWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -381,7 +382,7 @@ namespace UDT_Term_FFT
             this.btnTSOpen = new System.Windows.Forms.Button();
             this.txTSFileName = new System.Windows.Forms.TextBox();
             this.btnTSSaveTimeStamp = new System.Windows.Forms.Button();
-            this.bFixedTVBThemeRegardlessOfOptionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.TabMaster.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -917,7 +918,8 @@ namespace UDT_Term_FFT
             this.tASKHaveNewSTCCommandForMetaDataSTARTSTOPLastFrameAddressToolStripMenuItem,
             this.tASKSNADWorkToFinishOffToolStripMenuItem,
             this.tASKConsiderRemovingFT232RLObsleteUseToolStripMenuItem,
-            this.tASKUpdateUDTermLiteFromThisCodeToolStripMenuItem});
+            this.tASKUpdateUDTermLiteFromThisCodeToolStripMenuItem,
+            this.aToolStripMenuItem});
             this.revision2ARGP280915ToolStripMenuItem.ForeColor = System.Drawing.Color.Navy;
             this.revision2ARGP280915ToolStripMenuItem.Name = "revision2ARGP280915ToolStripMenuItem";
             this.revision2ARGP280915ToolStripMenuItem.Size = new System.Drawing.Size(147, 20);
@@ -1038,6 +1040,12 @@ namespace UDT_Term_FFT
             this.jEChangeBGSurveyTabForToolStripMenuItem.Size = new System.Drawing.Size(764, 22);
             this.jEChangeBGSurveyTabForToolStripMenuItem.Text = "79A  = Added Hex Duplicate and Ethernet UDP Server Interface and Tools. Linked to" +
     " UDTTERM Command protocol, etc";
+            // 
+            // bFixedTVBThemeRegardlessOfOptionToolStripMenuItem
+            // 
+            this.bFixedTVBThemeRegardlessOfOptionToolStripMenuItem.Name = "bFixedTVBThemeRegardlessOfOptionToolStripMenuItem";
+            this.bFixedTVBThemeRegardlessOfOptionToolStripMenuItem.Size = new System.Drawing.Size(764, 22);
+            this.bFixedTVBThemeRegardlessOfOptionToolStripMenuItem.Text = "79B = Fixed TVB theme regardless of option";
             // 
             // tASKHaveNewSTCCommandForMetaDataSTARTSTOPLastFrameAddressToolStripMenuItem
             // 
@@ -4099,11 +4107,11 @@ namespace UDT_Term_FFT
             this.btnTSSaveTimeStamp.UseVisualStyleBackColor = true;
             this.btnTSSaveTimeStamp.Click += new System.EventHandler(this.btnTSSaveTimeStamp_Click);
             // 
-            // bFixedTVBThemeRegardlessOfOptionToolStripMenuItem
+            // aToolStripMenuItem
             // 
-            this.bFixedTVBThemeRegardlessOfOptionToolStripMenuItem.Name = "bFixedTVBThemeRegardlessOfOptionToolStripMenuItem";
-            this.bFixedTVBThemeRegardlessOfOptionToolStripMenuItem.Size = new System.Drawing.Size(764, 22);
-            this.bFixedTVBThemeRegardlessOfOptionToolStripMenuItem.Text = "79B = Fixed TVB theme regardless of option";
+            this.aToolStripMenuItem.Name = "aToolStripMenuItem";
+            this.aToolStripMenuItem.Size = new System.Drawing.Size(764, 22);
+            this.aToolStripMenuItem.Text = "80A = Added Linux Tools TabBox";
             // 
             // MainProg
             // 
@@ -4558,6 +4566,7 @@ namespace UDT_Term_FFT
         private System.Windows.Forms.CheckBox cbETH_Ping;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem bFixedTVBThemeRegardlessOfOptionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aToolStripMenuItem;
     }
 }
 
