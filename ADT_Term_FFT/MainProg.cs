@@ -1104,11 +1104,21 @@ namespace UDT_Term_FFT
             //-----------------------------------------Enter
             if (e.KeyData == Keys.Enter)
             {
-                if (myGlobalBase.LINUX_isLinuxModeEnabled == true)
+                if (myGlobalBase.LINUX_isLinuxModeEnabled == true)   // Linux style.
                 {
+                    // Break down message into discrete text.
                     e.SuppressKeyPress = true;
+                    //------------------------------------------Add CMD text into buffer
+                    int i = 19;
+                    while (i > 0)
+                    {
+                        sCommandList[i] = sCommandList[i - 1];
+                        i--;
+                    }
+                    //----------------------------------------
                     string[] sEntryTxtCapture = rtbTerm.Text.Split(new char[] { '\r', '\n' }, StringSplitOptions.None);
-                    m_sEntryTxt = sEntryTxtCapture[0];
+                    int sNumberOfLines = sEntryTxtCapture.Length;
+                    m_sEntryTxt = sEntryTxtCapture[sNumberOfLines - 1];     //TODO###: handle many split commands.
                     sCommandList[0] = m_sEntryTxt;                          // Save command into recall buffer. 
                     iCommandListPointer = 0;                                // Reset recall pointer back to start
                     rtbTerm.AppendText("\r\n");

@@ -105,6 +105,7 @@ namespace UDT_Term_FFT
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.jEChangeBGSurveyTabForToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bFixedTVBThemeRegardlessOfOptionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aAddLinuxModeAndScreenSupportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tASKHaveNewSTCCommandForMetaDataSTARTSTOPLastFrameAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tASKSNADWorkToFinishOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nBFixedBugForDataConversionBetweenLoggerCVSToLogMemWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -149,6 +150,9 @@ namespace UDT_Term_FFT
             this.label10 = new System.Windows.Forms.Label();
             this.btnSTCSTART_SendDateTime = new System.Windows.Forms.Button();
             this.btnLoggerCSV = new System.Windows.Forms.Button();
+            this.tpLinux = new System.Windows.Forms.TabPage();
+            this.chLargeScreen = new System.Windows.Forms.CheckBox();
+            this.cbLinuxModeEnable = new System.Windows.Forms.CheckBox();
             this.tpSNAD = new System.Windows.Forms.TabPage();
             this.btnSNAD_Help = new System.Windows.Forms.Button();
             this.btnSNAD_Enable = new System.Windows.Forms.Button();
@@ -382,15 +386,12 @@ namespace UDT_Term_FFT
             this.btnTSOpen = new System.Windows.Forms.Button();
             this.txTSFileName = new System.Windows.Forms.TextBox();
             this.btnTSSaveTimeStamp = new System.Windows.Forms.Button();
-            this.tpLinux = new System.Windows.Forms.TabPage();
-            this.cbLinuxModeEnable = new System.Windows.Forms.CheckBox();
-            this.chLargeScreen = new System.Windows.Forms.CheckBox();
-            this.aAddLinuxModeAndScreenSupportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.TabMaster.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tcMainFeature.SuspendLayout();
             this.tpLoggerCVS.SuspendLayout();
+            this.tpLinux.SuspendLayout();
             this.tpSNAD.SuspendLayout();
             this.gbSNAD.SuspendLayout();
             this.tgSurvey.SuspendLayout();
@@ -419,7 +420,6 @@ namespace UDT_Term_FFT
             ((System.ComponentModel.ISupportInitialize)(this.nudCanIdTo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudCanIdFrom)).BeginInit();
             this.tpTimeStamp.SuspendLayout();
-            this.tpLinux.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_ConnectSerial
@@ -1051,6 +1051,12 @@ namespace UDT_Term_FFT
             this.bFixedTVBThemeRegardlessOfOptionToolStripMenuItem.Size = new System.Drawing.Size(764, 22);
             this.bFixedTVBThemeRegardlessOfOptionToolStripMenuItem.Text = "79B = Fixed TVB theme regardless of option";
             // 
+            // aAddLinuxModeAndScreenSupportsToolStripMenuItem
+            // 
+            this.aAddLinuxModeAndScreenSupportsToolStripMenuItem.Name = "aAddLinuxModeAndScreenSupportsToolStripMenuItem";
+            this.aAddLinuxModeAndScreenSupportsToolStripMenuItem.Size = new System.Drawing.Size(764, 22);
+            this.aAddLinuxModeAndScreenSupportsToolStripMenuItem.Text = "80A = Add Linux Mode and extended screen layout. Faster data in stream.";
+            // 
             // tASKHaveNewSTCCommandForMetaDataSTARTSTOPLastFrameAddressToolStripMenuItem
             // 
             this.tASKHaveNewSTCCommandForMetaDataSTARTSTOPLastFrameAddressToolStripMenuItem.Name = "tASKHaveNewSTCCommandForMetaDataSTARTSTOPLastFrameAddressToolStripMenuItem";
@@ -1506,6 +1512,39 @@ namespace UDT_Term_FFT
             this.btnLoggerCSV.Text = "Open LoggerCVS";
             this.btnLoggerCSV.UseVisualStyleBackColor = true;
             this.btnLoggerCSV.Click += new System.EventHandler(this.btnLoggerCSV_Click);
+            // 
+            // tpLinux
+            // 
+            this.tpLinux.Controls.Add(this.chLargeScreen);
+            this.tpLinux.Controls.Add(this.cbLinuxModeEnable);
+            this.tpLinux.Location = new System.Drawing.Point(4, 22);
+            this.tpLinux.Name = "tpLinux";
+            this.tpLinux.Size = new System.Drawing.Size(496, 78);
+            this.tpLinux.TabIndex = 23;
+            this.tpLinux.Text = "Linux";
+            this.tpLinux.UseVisualStyleBackColor = true;
+            // 
+            // chLargeScreen
+            // 
+            this.chLargeScreen.AutoSize = true;
+            this.chLargeScreen.Location = new System.Drawing.Point(3, 26);
+            this.chLargeScreen.Name = "chLargeScreen";
+            this.chLargeScreen.Size = new System.Drawing.Size(87, 17);
+            this.chLargeScreen.TabIndex = 1;
+            this.chLargeScreen.Text = "LargeScreen";
+            this.chLargeScreen.UseVisualStyleBackColor = true;
+            this.chLargeScreen.CheckedChanged += new System.EventHandler(this.chLargeScreen_CheckedChanged);
+            // 
+            // cbLinuxModeEnable
+            // 
+            this.cbLinuxModeEnable.AutoSize = true;
+            this.cbLinuxModeEnable.Location = new System.Drawing.Point(3, 3);
+            this.cbLinuxModeEnable.Name = "cbLinuxModeEnable";
+            this.cbLinuxModeEnable.Size = new System.Drawing.Size(80, 17);
+            this.cbLinuxModeEnable.TabIndex = 0;
+            this.cbLinuxModeEnable.Text = "Linux mode";
+            this.cbLinuxModeEnable.UseVisualStyleBackColor = true;
+            this.cbLinuxModeEnable.CheckedChanged += new System.EventHandler(this.cbLinuxModeEnable_CheckedChanged);
             // 
             // tpSNAD
             // 
@@ -4112,45 +4151,6 @@ namespace UDT_Term_FFT
             this.btnTSSaveTimeStamp.UseVisualStyleBackColor = true;
             this.btnTSSaveTimeStamp.Click += new System.EventHandler(this.btnTSSaveTimeStamp_Click);
             // 
-            // tpLinux
-            // 
-            this.tpLinux.Controls.Add(this.chLargeScreen);
-            this.tpLinux.Controls.Add(this.cbLinuxModeEnable);
-            this.tpLinux.Location = new System.Drawing.Point(4, 22);
-            this.tpLinux.Name = "tpLinux";
-            this.tpLinux.Size = new System.Drawing.Size(496, 78);
-            this.tpLinux.TabIndex = 23;
-            this.tpLinux.Text = "Linux";
-            this.tpLinux.UseVisualStyleBackColor = true;
-            // 
-            // cbLinuxModeEnable
-            // 
-            this.cbLinuxModeEnable.AutoSize = true;
-            this.cbLinuxModeEnable.Location = new System.Drawing.Point(3, 3);
-            this.cbLinuxModeEnable.Name = "cbLinuxModeEnable";
-            this.cbLinuxModeEnable.Size = new System.Drawing.Size(80, 17);
-            this.cbLinuxModeEnable.TabIndex = 0;
-            this.cbLinuxModeEnable.Text = "Linux mode";
-            this.cbLinuxModeEnable.UseVisualStyleBackColor = true;
-            this.cbLinuxModeEnable.CheckedChanged += new System.EventHandler(this.cbLinuxModeEnable_CheckedChanged);
-            // 
-            // chLargeScreen
-            // 
-            this.chLargeScreen.AutoSize = true;
-            this.chLargeScreen.Location = new System.Drawing.Point(3, 26);
-            this.chLargeScreen.Name = "chLargeScreen";
-            this.chLargeScreen.Size = new System.Drawing.Size(87, 17);
-            this.chLargeScreen.TabIndex = 1;
-            this.chLargeScreen.Text = "LargeScreen";
-            this.chLargeScreen.UseVisualStyleBackColor = true;
-            this.chLargeScreen.CheckedChanged += new System.EventHandler(this.chLargeScreen_CheckedChanged);
-            // 
-            // aAddLinuxModeAndScreenSupportsToolStripMenuItem
-            // 
-            this.aAddLinuxModeAndScreenSupportsToolStripMenuItem.Name = "aAddLinuxModeAndScreenSupportsToolStripMenuItem";
-            this.aAddLinuxModeAndScreenSupportsToolStripMenuItem.Size = new System.Drawing.Size(764, 22);
-            this.aAddLinuxModeAndScreenSupportsToolStripMenuItem.Text = "80A = Add Linux mode and screen supports";
-            // 
             // MainProg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4197,6 +4197,8 @@ namespace UDT_Term_FFT
             this.tcMainFeature.ResumeLayout(false);
             this.tpLoggerCVS.ResumeLayout(false);
             this.tpLoggerCVS.PerformLayout();
+            this.tpLinux.ResumeLayout(false);
+            this.tpLinux.PerformLayout();
             this.tpSNAD.ResumeLayout(false);
             this.tpSNAD.PerformLayout();
             this.gbSNAD.ResumeLayout(false);
@@ -4244,8 +4246,6 @@ namespace UDT_Term_FFT
             ((System.ComponentModel.ISupportInitialize)(this.nudCanIdFrom)).EndInit();
             this.tpTimeStamp.ResumeLayout(false);
             this.tpTimeStamp.PerformLayout();
-            this.tpLinux.ResumeLayout(false);
-            this.tpLinux.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
