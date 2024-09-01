@@ -369,6 +369,15 @@ namespace UDT_Term_FFT
         public bool ETH_isUDTClientOpen { get; set; }                // Open and Close UDT Client Port
         public bool ETH_messageReceived { get; set; }
 
+        //############################################################# Linux
+
+        public bool LINUX_isLinuxModeEnabled     { get; set; }
+        public bool LINUX_isLargeScreenEnabled  { get; set; }
+       
+        //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
         // ==================================================================Constructor
         public GlobalBase()
         {
@@ -497,6 +506,9 @@ namespace UDT_Term_FFT
             //--------------------------------------Ethernet
             ETH_isUDTClientOpen = false;
             ETH_messageReceived = false;
+            //--------------------------------------Linux
+            LINUX_isLinuxModeEnabled = false;
+            LINUX_isLargeScreenEnabled = false;
 
             //----------------------------Common Folder.
             //EVKItApp_DefaultFolder = Path.Combine(Environment.ExpandEnvironmentVariables("%userprofile%"), "Documents");

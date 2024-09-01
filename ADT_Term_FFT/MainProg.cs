@@ -1104,31 +1104,49 @@ namespace UDT_Term_FFT
             //-----------------------------------------Enter
             if (e.KeyData == Keys.Enter)
             {
-                // Break down message into discrete text.
-                e.SuppressKeyPress = true;
-                //------------------------------------------Add CMD text into buffer
-                int i = 19;
-                while (i > 0)
+                if (myGlobalBase.LINUX_isLinuxModeEnabled == true)
                 {
-                    sCommandList[i] = sCommandList[i - 1];
-                    i--;
+                    e.SuppressKeyPress = true;
+                    string[] sEntryTxtCapture = rtbTerm.Text.Split(new char[] { '\r', '\n' }, StringSplitOptions.None);
+                    m_sEntryTxt = sEntryTxtCapture[0];
+                    sCommandList[0] = m_sEntryTxt;                          // Save command into recall buffer. 
+                    iCommandListPointer = 0;                                // Reset recall pointer back to start
+                    rtbTerm.AppendText("\r\n");
+                    bIsCommandEntered = true;
+                    rtbTerm.ReadOnly = true;                                // Disable MsgBox to avoid further command entry until process is completed.
+                    m_sResponseTxt = string.Empty;
+                    Command_ASCII_Process_UART();
+                    m_sEntryTxt = string.Empty;
                 }
-                //----------------------------------------
-                string[] sEntryTxtCapture = rtbTerm.Text.Split(new char[] { '\r', '\n' }, StringSplitOptions.None);
-                int sNumberOfLines = sEntryTxtCapture.Length;
-                m_sEntryTxt = sEntryTxtCapture[sNumberOfLines - 1];     //TODO###: handle many split commands.
-                sCommandList[0] = m_sEntryTxt;                          // Save command into recall buffer. 
-                iCommandListPointer = 0;                                // Reset recall pointer back to start
-                rtbTerm.AppendText("\r\n");
-                bIsCommandEntered = true;
-                rtbTerm.ReadOnly = true;                                // Disable MsgBox to avoid further command entry until process is completed.
+                else
+                {
 
-                //if (myLoggerCSV.Visible== false)
-                //    myGlobalBase.LoggerWindowVisable = false;
+                    // Break down message into discrete text.
+                    e.SuppressKeyPress = true;
+                    //------------------------------------------Add CMD text into buffer
+                    int i = 19;
+                    while (i > 0)
+                    {
+                        sCommandList[i] = sCommandList[i - 1];
+                        i--;
+                    }
+                    //----------------------------------------
+                    string[] sEntryTxtCapture = rtbTerm.Text.Split(new char[] { '\r', '\n' }, StringSplitOptions.None);
+                    int sNumberOfLines = sEntryTxtCapture.Length;
+                    m_sEntryTxt = sEntryTxtCapture[sNumberOfLines - 1];     //TODO###: handle many split commands.
+                    sCommandList[0] = m_sEntryTxt;                          // Save command into recall buffer. 
+                    iCommandListPointer = 0;                                // Reset recall pointer back to start
+                    rtbTerm.AppendText("\r\n");
+                    bIsCommandEntered = true;
+                    rtbTerm.ReadOnly = true;                                // Disable MsgBox to avoid further command entry until process is completed.
 
-                m_sResponseTxt = string.Empty;
-                MsgBoxCommandEntry();
-                m_sEntryTxt = string.Empty;
+                    //if (myLoggerCSV.Visible== false)
+                    //    myGlobalBase.LoggerWindowVisable = false;
+
+                    m_sResponseTxt = string.Empty;
+                    MsgBoxCommandEntry();
+                    m_sEntryTxt = string.Empty;
+                }
 
                 bIsCommandEntered = false;
                 rtbTerm.ReadOnly = false;
@@ -1179,7 +1197,7 @@ namespace UDT_Term_FFT
                 return;
             }
             // With UDTTERM command with ! (standard) or +! (callback), it treated as Ethernet command entry. 
-            if (m_sEntryTxt.Length<=2)
+            if (m_sEntryTxt.Length <= 2)
             {
                 myRtbTermMessageLF("#E:Command entry length is too short, must be more than 3 chars.");
                 return;
@@ -1194,6 +1212,7 @@ namespace UDT_Term_FFT
                 m_sEntryTxt = m_sEntryTxt.Replace("!", "");     // remove ! so that it goes to UART based channel if enabled.
                 Command_ASCII_Process_UART();
             }
+            
         }
         #endregion
 
@@ -1987,6 +2006,19 @@ namespace UDT_Term_FFT
             {
                 myGlobalBase.TermHaltMessageBuf += Message;
             }
+        }
+        #endregion
+
+        #region //==================================================rtbTermPanelRichTextBox_Ref
+        //==========================================================
+        // Purpose  : Append message in terminal window,. 
+        // Input    :  
+        // Output   : 
+        // Status   :
+        //==========================================================
+        public System.Windows.Forms.RichTextBox rtbTermPanelRichTextBox_Ref()
+        {
+            return (this.rtbTerm);
         }
         #endregion
 
@@ -9812,6 +9844,89 @@ namespace UDT_Term_FFT
                     MacAddress = m.Groups["mac"].Value,
                     IpAddress = m.Groups["ip"].Value
                 };
+            }
+        }
+        #endregion
+
+        //##############################################################################################################
+        //============================================================================================= Linux TabPage 1/Sep/2024
+        //##############################################################################################################
+
+        #region //=============================================================================================cbLinuxModeEnable_CheckedChanged
+
+        private void cbLinuxModeEnable_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbLinuxModeEnable.Checked == true)
+            {
+                myGlobalBase.LINUX_isLinuxModeEnabled = true;
+            }
+                else
+            {
+                myGlobalBase.LINUX_isLinuxModeEnabled = false;
+            }
+        }
+        #endregion
+        #region //=============================================================================================chLargeScreen_CheckedChanged
+        private void chLargeScreen_CheckedChanged(object sender, EventArgs e)
+        {
+            Size defaultsize = new Size(1100, 677); // 1100, 677
+            Size newsize = new Size(1400, 800);
+
+            int offsetX = newsize.Width - defaultsize.Width;
+            int offsetY = newsize.Height - defaultsize.Height;
+
+            Point defaultTabBox = new Point(686, 131);
+            Point newTabBox = new Point(686+offsetX, 131);
+
+            Size defaultTermsize = new Size(665, 500); // 665 500
+            Size newTermsize = new Size(665+offsetX, 500+offsetY);
+
+            Point[] defaultButton = new Point[4]
+            {
+                new Point(685, 610),  
+                new Point(748, 610),  
+                new Point(810, 610),  
+                new Point(891, 610)   
+            };
+            Point[] newButton = new Point[4]
+            {
+                new Point(685+offsetX, 610+offsetY),
+                new Point(748+offsetX, 610+offsetY),
+                new Point(810+offsetX, 610+offsetY),
+                new Point(891+offsetX, 610+offsetY)
+            };
+
+            if (chLargeScreen.Checked == true)
+            {
+    
+                myGlobalBase.LINUX_isLargeScreenEnabled = true;
+                this.MaximumSize = newsize;
+                this.MinimumSize = newsize;
+                this.Size = newsize;
+                this.TabMaster.Location = newTabBox;
+                this.rtbTerm.MaximumSize = newTermsize;
+                this.rtbTerm.MinimumSize = newTermsize;
+                this.rtbTerm.Size = newTermsize;
+                this.btnClear.Location = newButton[0];
+                this.btnHalt.Location = newButton[1];
+                this.btnExport.Location = newButton[2];
+                this.btnImport.Location = newButton[3];
+
+            }
+            else
+            {
+                myGlobalBase.LINUX_isLargeScreenEnabled = false;
+                this.MaximumSize = defaultsize;
+                this.MinimumSize = defaultsize;
+                this.Size = defaultsize;
+                this.TabMaster.Location = defaultTabBox;
+                this.rtbTerm.MaximumSize = defaultTermsize;
+                this.rtbTerm.MinimumSize = defaultTermsize;
+                this.rtbTerm.Size = defaultTermsize;
+                this.btnClear.Location = defaultButton[0];
+                this.btnHalt.Location = defaultButton[1];
+                this.btnExport.Location = defaultButton[2];
+                this.btnImport.Location = defaultButton[3];
             }
         }
 

@@ -13,6 +13,7 @@ using System.IO;
 using System.Reflection;
 using System.Management;
 using UDT_Term;
+using System.Linq.Expressions;
 // Power Tool: insert QuickLaunch with "@tasks CollapseRegions" to close all region only
 namespace UDT_Term_FFT
 {
@@ -119,13 +120,20 @@ namespace UDT_Term_FFT
         #region //==================================================ComMSG_Designate_ReadData_To_App
         public void ComMSG_Designate_ReadData_To_App(string data, byte[] readData)
         {
-            if ((myGlobalBase.LoggerOpertaionMode == true) & (myGlobalBase.LoggerWindowVisable == true))
+            if (myGlobalBase.LINUX_isLinuxModeEnabled == true)
             {
-                ComMSG_AddDataLogger(data);
+                ComMSG_AddDataLinux(data, ref readData);
             }
             else
-            {
-                ComMSG_AddData(data, ref readData);        // Both string and byte[] are transferred to avoid Unicode issue 
+            { 
+                if ((myGlobalBase.LoggerOpertaionMode == true) & (myGlobalBase.LoggerWindowVisable == true))
+                {
+                    ComMSG_AddDataLogger(data);
+                }
+                else
+                {
+                    ComMSG_AddData(data, ref readData);        // Both string and byte[] are transferred to avoid Unicode issue 
+                }
             }
             myGlobalBase.ETH_messageReceived = false;
         }
@@ -722,6 +730,50 @@ namespace UDT_Term_FFT
                 myMainProg.myRtbTermMessage("#ERR : Unable to append message into Filename: " + myGlobalBase.sFilename + Environment.NewLine);
                 myGlobalBase.IsLogEnable = false;
             }
+        }
+        #endregion
+
+        #region //==================================================BeginInvoke: AddDataLinux
+        //----- Special trick by taking richtextbox reference from the other form into non-window code so that text can written directly! 
+        public delegate void AddDataLinuxDelegate(string RXdata, ref byte[] ByteData);
+        public void ComMSG_AddDataLinux(string RXdata, ref byte[] ByteData)
+        {
+            System.Windows.Forms.RichTextBox rtbTerm = myMainProg.rtbTermPanelRichTextBox_Ref();
+            if (myMainProg.rtbTermfRichTextBox_Ref().InvokeRequired)
+            {
+                myMainProg.rtbTermfRichTextBox_Ref().BeginInvoke(new AddDataLinuxDelegate(ComMSG_AddDataLinux), new object[] { RXdata, ByteData });
+                return;
+            }
+            
+            //----------------------------------------------------------------------
+            try
+            {
+                if (myGlobalBase.isTermScreenHalted == false)
+                {
+                    if (rtbTerm != null)
+                    {
+                        Tools.rtb_StopRepaint(rtbTerm, rtbOEMMsg);
+                        rtbTerm.SelectionFont = myGlobalBase.FontResponse;
+                        rtbTerm.SelectionColor = myGlobalBase.ColorResponse;
+                        rtbTerm.SelectionStart = rtbTerm.TextLength;
+                        rtbTerm.ScrollToCaret();
+                        rtbTerm.Select();
+                        rtbTerm.AppendText(myGlobalBase.TermHaltMessageBuf + RXdata);
+                        Tools.rtb_StartRepaint(rtbTerm, rtbOEMMsg);
+                    }
+                    myGlobalBase.TermHaltMessageBuf = "";
+                }
+                else
+                {
+                    myGlobalBase.TermHaltMessageBuf += RXdata;
+                }
+            }
+            catch { }
+            endoflinedetected = false;
+            //----------------------------------------------------------------------
+            // Below no service needed for now, something for future related to Linux terminal mode.
+            // This help to speed up response. 
+            //----------------------------------------------------------------------
         }
         #endregion
 
