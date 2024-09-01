@@ -382,6 +382,7 @@ namespace UDT_Term_FFT
             this.btnTSOpen = new System.Windows.Forms.Button();
             this.txTSFileName = new System.Windows.Forms.TextBox();
             this.btnTSSaveTimeStamp = new System.Windows.Forms.Button();
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.TabMaster.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -917,7 +918,8 @@ namespace UDT_Term_FFT
             this.tASKHaveNewSTCCommandForMetaDataSTARTSTOPLastFrameAddressToolStripMenuItem,
             this.tASKSNADWorkToFinishOffToolStripMenuItem,
             this.tASKConsiderRemovingFT232RLObsleteUseToolStripMenuItem,
-            this.tASKUpdateUDTermLiteFromThisCodeToolStripMenuItem});
+            this.tASKUpdateUDTermLiteFromThisCodeToolStripMenuItem,
+            this.testToolStripMenuItem});
             this.revision2ARGP280915ToolStripMenuItem.ForeColor = System.Drawing.Color.Navy;
             this.revision2ARGP280915ToolStripMenuItem.Name = "revision2ARGP280915ToolStripMenuItem";
             this.revision2ARGP280915ToolStripMenuItem.Size = new System.Drawing.Size(147, 20);
@@ -4105,6 +4107,12 @@ namespace UDT_Term_FFT
             this.btnTSSaveTimeStamp.UseVisualStyleBackColor = true;
             this.btnTSSaveTimeStamp.Click += new System.EventHandler(this.btnTSSaveTimeStamp_Click);
             // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(764, 22);
+            this.testToolStripMenuItem.Text = "test";
+            // 
             // MainProg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4558,6 +4566,7 @@ namespace UDT_Term_FFT
         private System.Windows.Forms.CheckBox cbETH_Ping;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem bFixedTVBThemeRegardlessOfOptionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
     }
 }
 
