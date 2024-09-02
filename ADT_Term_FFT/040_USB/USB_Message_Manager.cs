@@ -744,7 +744,8 @@ namespace UDT_Term_FFT
                 myMainProg.rtbTermfRichTextBox_Ref().BeginInvoke(new AddDataLinuxDelegate(ComMSG_AddDataLinux), new object[] { RXdata, ByteData });
                 return;
             }
-            
+            // A null character (0x00) being sent and displayed as "^@" for visibility.
+            string RXdataIn = RXdata.Replace("^@", "");
             //----------------------------------------------------------------------
             try
             {
@@ -758,14 +759,14 @@ namespace UDT_Term_FFT
                         rtbTerm.SelectionStart = rtbTerm.TextLength;
                         rtbTerm.ScrollToCaret();
                         rtbTerm.Select();
-                        rtbTerm.AppendText(myGlobalBase.TermHaltMessageBuf + RXdata);
+                        rtbTerm.AppendText(myGlobalBase.TermHaltMessageBuf + RXdataIn);
                         Tools.rtb_StartRepaint(rtbTerm, rtbOEMMsg);
                     }
                     myGlobalBase.TermHaltMessageBuf = "";
                 }
                 else
                 {
-                    myGlobalBase.TermHaltMessageBuf += RXdata;
+                    myGlobalBase.TermHaltMessageBuf += RXdataIn;
                 }
             }
             catch { }

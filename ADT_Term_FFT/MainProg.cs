@@ -27,6 +27,7 @@ using Amazon.SimpleNotificationService.Util;
 using System.Xml.Linq;
 using System.Windows.Markup;
 using Amazon;
+using FTD2XX_NET;
 
 // Power Tool: insert QuickLaunch with "@tasks CollapseRegions" to close all region only. 
 
@@ -185,9 +186,13 @@ namespace UDT_Term_FFT
         private System.Windows.Forms.DataGridView[] dataGridArray;
         DataGridViewTextBoxColumn[] CmdColumn;
         //-------------------------------------Command List Buffer for recall
-        private string[] sCommandList;
-        private const int iCommandListMax = 20;
-        private int iCommandListPointer;
+        private const int   cInputEntryMaxArray = 512;
+        private char[]      cInputEntry;
+        private int         cInputEntryPointer;
+        //-----------------------------
+        private string[]    sCommandList;
+        private const int   iCommandListMax = 100;
+        private int         iCommandListPointer;
         //-------------------------------------Define number of tab in the UDT
         const int NoOfTabs = 8;
         //-------------------------------------
@@ -298,6 +303,11 @@ namespace UDT_Term_FFT
 
             //---------------------------------------Fluxgate
             FGIIrg = new Regex(@"^[0-9E$\s,+-]*$");
+            
+            //---------------------------------------Linux
+
+            cInputEntry = new char[cInputEntryMaxArray];
+            iCommandListPointer = 0;
 
             //#####################################################################################################
             //###################################################################################### BG Section Code
@@ -1034,152 +1044,293 @@ namespace UDT_Term_FFT
         //=============================================================================================This section deal with command entry (FT232RL and CAN and USB) within Window Terminal
         //##############################################################################################################
 
-        #region//==================================================MsgBox_KeyPress Control ( This is for command entry by user)
+        #region//==================================================MsgBox_KeyPress Control for linux only!!
+        private void rtbTerm_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //had to use this because the rtbTerm_KeyDown does not support lower case (amazingly retards)
+            // Only for linux mode.
+            //-----------------------------------------Linux
+            if (myGlobalBase.LINUX_isLinuxModeEnabled == true)
+            {
+                if (e.KeyChar == (char)Keys.Back && cInputEntryPointer > 0)
+                {
+                    cInputEntryPointer--;
+                    cInputEntry[cInputEntryPointer] = '\0';
+                    rtbTerm.Text = rtbTerm.Text.Substring(0, rtbTerm.Text.Length - 1);
+                    e.Handled = true;
+                }
+                else
+                {
+                    if (cInputEntryPointer < (cInputEntry.Length - 4))
+                    {
+                        cInputEntry[cInputEntryPointer] = (char)e.KeyChar;
+                        rtbTerm.AppendText(cInputEntry[cInputEntryPointer].ToString());
+                        cInputEntryPointer++;
+                        e.Handled = true;
+                    }
+                }
+            }
+            //-----------------------------------------UDTTERM
+            else    // might be handy for text adjustment. 
+            {
+                if (e.KeyChar == (char)Keys.Back && cInputEntryPointer > 0)
+                {
+                    cInputEntryPointer--;
+                    cInputEntry[cInputEntryPointer] = '\0';
+                    rtbTerm.Text = rtbTerm.Text.Substring(0, rtbTerm.Text.Length - 1);
+                    e.Handled = true;
+                }
+            }
+        }
+        #endregion
+
+        #region//==================================================rtbTerm_KeyDown  ( This is for command entry by user)
         private void rtbTerm_KeyDown(object sender, KeyEventArgs e)  // claret = blinking on line, cursor = mouse cursor.
         {
             rtbTerm.SelectionFont = myGlobalBase.FontMessage;
             rtbTerm.SelectionColor = myGlobalBase.ColorMessage;
-            //-----------------------------------------Escape
-            if (e.KeyData == Keys.Escape)
+            //-----------------------------------------Linux
+            if (myGlobalBase.LINUX_isLinuxModeEnabled == true)
             {
-                Trace.Write("-INFO: <ESC>");
-                if (myGlobalBase.USB_SelectDeviceMode == (int)GlobalBase.eSerialDeviceSelect.USB_UART_FTDI)
+                switch (e.KeyData)
                 {
-                    //### Check if dsPIC33 is actually connected, if not reject command....this need review/optional.
-                    myUSBComm.FTDI_Message_Send("\x1b");
-                }
-                if (myGlobalBase.USB_SelectDeviceMode == (int)GlobalBase.eSerialDeviceSelect.USB_UART_VCOM)
-                {
-                    myUSB_VCOM_Comm.VCOM_Message_Send("\x1b");
-                }
-                Terminal_Append_Request("\r\n:");
-                return;
-            }
-            //-----------------------------------------Up or Down cursor key
-            if (e.KeyData == Keys.Up || e.KeyData == Keys.Down)     // Ignore up or down key when pressed
-            {
-                e.SuppressKeyPress = true;
-                if ((e.KeyData == Keys.Up) & (iCommandListPointer < iCommandListMax))
-                {
-                    List<string> myList = rtbTerm.Lines.ToList();
-                    if (myList.Count > 0)
-                    {
-                        Tools.rtb_StopRepaint(rtbTerm, rtbOEMx);
-                        iCommandListPointer++;
-                        myList.RemoveAt(myList.Count - 1);
-                        rtbTerm.Lines = myList.ToArray();
-                        rtbTerm.AppendText("\r\n");
-                        if (sCommandList[iCommandListPointer] == null)    // if null, go back to previous.
-                            iCommandListPointer = 0;
-                        if (sCommandList[iCommandListPointer] != null)        // NB: Does not records DMFP or non-user command.
+                    case (Keys.Escape):
                         {
-                            rtbTerm.AppendText(sCommandList[iCommandListPointer]);
+                            Trace.Write("-INFO: <ESC>");
+                            if (myGlobalBase.USB_SelectDeviceMode == (int)GlobalBase.eSerialDeviceSelect.USB_UART_FTDI)
+                            {
+                                //### Check if dsPIC33 is actually connected, if not reject command....this need review/optional.
+                                myUSBComm.FTDI_Message_Send("\x1b");
+                            }
+                            if (myGlobalBase.USB_SelectDeviceMode == (int)GlobalBase.eSerialDeviceSelect.USB_UART_VCOM)
+                            {
+                                myUSB_VCOM_Comm.VCOM_Message_Send("\x1b");
+                            }
+                            Terminal_Append_Request("\r\n:");
+                            return;
                         }
-                        //rtbTerm.Refresh();
-                        Tools.rtb_StartRepaint(rtbTerm, rtbOEMx);
-                    }
-                }
-                if ((e.KeyData == Keys.Down))
-                {
-                    List<string> myList = rtbTerm.Lines.ToList();
-                    if (myList.Count > 0)
-                    {
-                        Tools.rtb_StopRepaint(rtbTerm, rtbOEMx);
-                        iCommandListPointer--;
-                        if (iCommandListPointer <= 0)
-                            iCommandListPointer = 0;
-                        myList.RemoveAt(myList.Count - 1);
-                        rtbTerm.Lines = myList.ToArray();
-                        rtbTerm.AppendText("\r\n");
-                        if (sCommandList[iCommandListPointer] != null)
+                    case (Keys.Down):
+                    case (Keys.Up):
                         {
-                            rtbTerm.AppendText(sCommandList[iCommandListPointer]);
+                            e.SuppressKeyPress = true;
+                            if ((e.KeyData == Keys.Up) & (iCommandListPointer < iCommandListMax))
+                            {
+                                List<string> myList = rtbTerm.Lines.ToList();
+                                if (myList.Count > 0)
+                                {
+                                    Tools.rtb_StopRepaint(rtbTerm, rtbOEMx);
+                                    iCommandListPointer++;
+                                    myList.RemoveAt(myList.Count - 1);
+                                    rtbTerm.Lines = myList.ToArray();
+                                    rtbTerm.AppendText("\r\n");
+                                    if (sCommandList[iCommandListPointer] == null)    // if null, go back to previous.
+                                        iCommandListPointer = 0;
+                                    if (sCommandList[iCommandListPointer] != null)        // NB: Does not records DMFP or non-user command.
+                                    {
+                                        rtbTerm.AppendText(sCommandList[iCommandListPointer]);
+                                    }
+                                    //rtbTerm.Refresh();
+                                    Tools.rtb_StartRepaint(rtbTerm, rtbOEMx);
+                                }
+                            }
+                            if ((e.KeyData == Keys.Down))
+                            {
+                                List<string> myList = rtbTerm.Lines.ToList();
+                                if (myList.Count > 0)
+                                {
+                                    Tools.rtb_StopRepaint(rtbTerm, rtbOEMx);
+                                    iCommandListPointer--;
+                                    if (iCommandListPointer <= 0)
+                                        iCommandListPointer = 0;
+                                    myList.RemoveAt(myList.Count - 1);
+                                    rtbTerm.Lines = myList.ToArray();
+                                    rtbTerm.AppendText("\r\n");
+                                    if (sCommandList[iCommandListPointer] != null)
+                                    {
+                                        rtbTerm.AppendText(sCommandList[iCommandListPointer]);
+                                    }
+                                    //rtbTerm.Refresh();
+                                    Tools.rtb_StartRepaint(rtbTerm, rtbOEMx);
+                                }
+                            }
+                            return;
                         }
-                        //rtbTerm.Refresh();
-                        Tools.rtb_StartRepaint(rtbTerm, rtbOEMx);
-                    }
-                    return;
+                    case (Keys.Enter):
+                        {
+                            //-----------------------------------------Convert discrete key entry to string and clean up
+                            e.SuppressKeyPress = true;
+                            cInputEntry[cInputEntryPointer] = '\r'; // end of line.
+                            cInputEntry[cInputEntryPointer+1] = '\n';
+                            cInputEntry[cInputEntryPointer+2] = '\0';
+                            string sEntryTxtCaptureX = new string(cInputEntry);
+                            Array.Clear(cInputEntry, '\0', cInputEntryPointer+1);
+                            cInputEntryPointer = 0;
+                            //------------------------------------------Shift command text buffer. 
+                            int i = iCommandListMax-1;
+                            while (i > 0)
+                            {
+                                sCommandList[i] = sCommandList[i - 1];
+                                i--;
+                            }
+                            //----------------------------------------
+                            m_sEntryTxt = sEntryTxtCaptureX;
+                            sCommandList[0] = sEntryTxtCaptureX;                          // Save command into recall buffer. 
+                            iCommandListPointer = 0;                                // Reset recall pointer back to start
+                            rtbTerm.AppendText("\r\n");
+                            bIsCommandEntered = true;
+                            rtbTerm.ReadOnly = true;                                // Disable MsgBox to avoid further command entry until process is completed.
+                            m_sResponseTxt = string.Empty;
+                            Command_ASCII_Process_Linux();
+                            m_sEntryTxt = string.Empty;
+                            break;
+                        }
+                    case (Keys.Left):
+                        {
+                            if ((rtbTerm.SelectionStart - rtbTerm.GetFirstCharIndexOfCurrentLine()) == 0)
+                            {
+                                e.SuppressKeyPress = true;                      // This suppress any claret moving up 
+                            }
+                            return;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                
                 }
-            }
-            //-----------------------------------------Enter
-            if (e.KeyData == Keys.Enter)
-            {
-                if (myGlobalBase.LINUX_isLinuxModeEnabled == true)   // Linux style.
+                if (m_isNewLine == true)
                 {
-                    // Break down message into discrete text.
-                    e.SuppressKeyPress = true;
-                    //------------------------------------------Add CMD text into buffer
-                    int i = 19;
-                    while (i > 0)
-                    {
-                        sCommandList[i] = sCommandList[i - 1];
-                        i--;
-                    }
-                    //----------------------------------------
-                    string[] sEntryTxtCapture = rtbTerm.Text.Split(new char[] { '\r', '\n' }, StringSplitOptions.None);
-                    int sNumberOfLines = sEntryTxtCapture.Length;
-                    m_sEntryTxt = sEntryTxtCapture[sNumberOfLines - 1];     //TODO###: handle many split commands.
-                    sCommandList[0] = m_sEntryTxt;                          // Save command into recall buffer. 
-                    iCommandListPointer = 0;                                // Reset recall pointer back to start
-                    rtbTerm.AppendText("\r\n");
-                    bIsCommandEntered = true;
-                    rtbTerm.ReadOnly = true;                                // Disable MsgBox to avoid further command entry until process is completed.
-                    m_sResponseTxt = string.Empty;
-                    Command_ASCII_Process_UART();
-                    m_sEntryTxt = string.Empty;
+                    Terminal_Append_Request(":");
+                    m_isNewLine = false;
                 }
-                else
+                //----------------------------------------Copy Only by Key
+                if (e.KeyCode == Keys.C && e.Modifiers == Keys.Control)
                 {
-
-                    // Break down message into discrete text.
-                    e.SuppressKeyPress = true;
-                    //------------------------------------------Add CMD text into buffer
-                    int i = 19;
-                    while (i > 0)
-                    {
-                        sCommandList[i] = sCommandList[i - 1];
-                        i--;
-                    }
-                    //----------------------------------------
-                    string[] sEntryTxtCapture = rtbTerm.Text.Split(new char[] { '\r', '\n' }, StringSplitOptions.None);
-                    int sNumberOfLines = sEntryTxtCapture.Length;
-                    m_sEntryTxt = sEntryTxtCapture[sNumberOfLines - 1];     //TODO###: handle many split commands.
-                    sCommandList[0] = m_sEntryTxt;                          // Save command into recall buffer. 
-                    iCommandListPointer = 0;                                // Reset recall pointer back to start
-                    rtbTerm.AppendText("\r\n");
-                    bIsCommandEntered = true;
-                    rtbTerm.ReadOnly = true;                                // Disable MsgBox to avoid further command entry until process is completed.
-
-                    //if (myLoggerCSV.Visible== false)
-                    //    myGlobalBase.LoggerWindowVisable = false;
-
-                    m_sResponseTxt = string.Empty;
-                    MsgBoxCommandEntry();
-                    m_sEntryTxt = string.Empty;
+                    if (rtbTerm.SelectedText != "")
+                        Clipboard.SetText(rtbTerm.SelectedText);
                 }
-
-                bIsCommandEntered = false;
-                rtbTerm.ReadOnly = false;
             }
-            //-----------------------------------------Left Cursor key
-            if (e.KeyData == Keys.Left)
+            else
+            //-----------------------------------------UDTTERM protocol, 80A change to switch method, 
             {
-                if ((rtbTerm.SelectionStart - rtbTerm.GetFirstCharIndexOfCurrentLine()) == 0)
+                switch (e.KeyData)
                 {
-                    e.SuppressKeyPress = true;                      // This suppress any claret moving up 
+                    case (Keys.Escape):
+                        {
+                            Trace.Write("-INFO: <ESC>");
+                            if (myGlobalBase.USB_SelectDeviceMode == (int)GlobalBase.eSerialDeviceSelect.USB_UART_FTDI)
+                            {
+                                //### Check if dsPIC33 is actually connected, if not reject command....this need review/optional.
+                                myUSBComm.FTDI_Message_Send("\x1b");
+                            }
+                            if (myGlobalBase.USB_SelectDeviceMode == (int)GlobalBase.eSerialDeviceSelect.USB_UART_VCOM)
+                            {
+                                myUSB_VCOM_Comm.VCOM_Message_Send("\x1b");
+                            }
+                            Terminal_Append_Request("\r\n:");
+                            return;
+                        }
+                    case (Keys.Down):
+                    case (Keys.Up):
+                        {
+                            e.SuppressKeyPress = true;
+                            if ((e.KeyData == Keys.Up) & (iCommandListPointer < iCommandListMax))
+                            {
+                                List<string> myList = rtbTerm.Lines.ToList();
+                                if (myList.Count > 0)
+                                {
+                                    Tools.rtb_StopRepaint(rtbTerm, rtbOEMx);
+                                    iCommandListPointer++;
+                                    myList.RemoveAt(myList.Count - 1);
+                                    rtbTerm.Lines = myList.ToArray();
+                                    rtbTerm.AppendText("\r\n");
+                                    if (sCommandList[iCommandListPointer] == null)    // if null, go back to previous.
+                                        iCommandListPointer = 0;
+                                    if (sCommandList[iCommandListPointer] != null)        // NB: Does not records DMFP or non-user command.
+                                    {
+                                        rtbTerm.AppendText(sCommandList[iCommandListPointer]);
+                                    }
+                                    //rtbTerm.Refresh();
+                                    Tools.rtb_StartRepaint(rtbTerm, rtbOEMx);
+                                }
+                            }
+                            if ((e.KeyData == Keys.Down))
+                            {
+                                List<string> myList = rtbTerm.Lines.ToList();
+                                if (myList.Count > 0)
+                                {
+                                    Tools.rtb_StopRepaint(rtbTerm, rtbOEMx);
+                                    iCommandListPointer--;
+                                    if (iCommandListPointer <= 0)
+                                        iCommandListPointer = 0;
+                                    myList.RemoveAt(myList.Count - 1);
+                                    rtbTerm.Lines = myList.ToArray();
+                                    rtbTerm.AppendText("\r\n");
+                                    if (sCommandList[iCommandListPointer] != null)
+                                    {
+                                        rtbTerm.AppendText(sCommandList[iCommandListPointer]);
+                                    }
+                                    //rtbTerm.Refresh();
+                                    Tools.rtb_StartRepaint(rtbTerm, rtbOEMx);
+                                }
+                            }
+                            return;
+                        }
+                    case (Keys.Enter):
+                        {
+                            // Break down message into discrete text.
+                            e.SuppressKeyPress = true;
+                            //------------------------------------------Add CMD text into buffer
+                            int i = iCommandListMax - 1;
+                            while (i > 0)
+                            {
+                                sCommandList[i] = sCommandList[i - 1];
+                                i--;
+                            }
+                            //----------------------------------------
+                            string[] sEntryTxtCapture = rtbTerm.Text.Split(new char[] { '\r', '\n' }, StringSplitOptions.None);
+                            int sNumberOfLines = sEntryTxtCapture.Length;
+                            m_sEntryTxt = sEntryTxtCapture[sNumberOfLines - 1];     //TODO###: handle many split commands.
+                            sCommandList[0] = m_sEntryTxt;                          // Save command into recall buffer. 
+                            iCommandListPointer = 0;                                // Reset recall pointer back to start
+                            rtbTerm.AppendText("\r\n");
+                            bIsCommandEntered = true;
+                            rtbTerm.ReadOnly = true;                                // Disable MsgBox to avoid further command entry until process is completed.
+
+                            //if (myLoggerCSV.Visible== false)
+                            //    myGlobalBase.LoggerWindowVisable = false;
+
+                            m_sResponseTxt = string.Empty;
+                            MsgBoxCommandEntry();
+                            m_sEntryTxt = string.Empty;
+                            bIsCommandEntered = false;
+                            rtbTerm.ReadOnly = false;
+                            break;
+                        }
+                    case (Keys.Left):
+                        {
+                            if ((rtbTerm.SelectionStart - rtbTerm.GetFirstCharIndexOfCurrentLine()) == 0)
+                            {
+                                e.SuppressKeyPress = true;                      // This suppress any claret moving up 
+                            }
+                            return;
+                        }
+                    default:
+                        {
+                            break;
+                        }
                 }
-                return;
-            }
-            if (m_isNewLine == true)
-            {
-                Terminal_Append_Request(":");
-                m_isNewLine = false;
-            }
-            //----------------------------------------Copy Only by Key
-            if (e.KeyCode == Keys.C && e.Modifiers == Keys.Control)
-            {
-                if (rtbTerm.SelectedText != "")
-                    Clipboard.SetText(rtbTerm.SelectedText);
+                if (m_isNewLine == true)
+                {
+                    Terminal_Append_Request(":");
+                    m_isNewLine = false;
+                }
+                //----------------------------------------Copy Only by Key
+                if (e.KeyCode == Keys.C && e.Modifiers == Keys.Control)
+                {
+                    if (rtbTerm.SelectedText != "")
+                        Clipboard.SetText(rtbTerm.SelectedText);
+                }
             }
             base.OnKeyDown(e);
 
@@ -1222,7 +1373,7 @@ namespace UDT_Term_FFT
                 m_sEntryTxt = m_sEntryTxt.Replace("!", "");     // remove ! so that it goes to UART based channel if enabled.
                 Command_ASCII_Process_UART();
             }
-            
+
         }
         #endregion
 
@@ -1238,11 +1389,52 @@ namespace UDT_Term_FFT
         }
         #endregion
 
+        #region //==================================================Command_ASCII_Process_Linux()
+        private void Command_ASCII_Process_Linux()
+        {
+            string prefix = string.Empty;
+            //--------------------80A
+            if (m_sEntryTxt == "")
+            {
+                myRtbTermMessageLF("#E: Text entry is empty.");
+                return;
+            }
+            prefix = m_sEntryTxt.Substring(0, 1);
+
+            if (myGlobalBase.is_Serial_Server_Connected == false)
+            {
+                myRtbTermMessageLF("#E:USB port has no connected device (Generic). Connect device and try again.");
+                return;
+            }
+            btn_ConnectSerial.Enabled = false;
+            btnClosePort.Enabled = true;
+
+            //--------------------FTDI Section
+            if (myGlobalBase.USB_SelectDeviceMode == (int)GlobalBase.eSerialDeviceSelect.USB_UART_FTDI)
+            {
+                myUSBComm.FTDI_Message_Send_Linux(m_sEntryTxt);
+            }
+            //------------------VCOM Section
+            if (myGlobalBase.USB_SelectDeviceMode == (int)GlobalBase.eSerialDeviceSelect.USB_UART_VCOM)
+            { 
+                myUSB_VCOM_Comm.VCOM_Message_Send_Linux(m_sEntryTxt);
+            }
+
+        }
+        #endregion
+
         #region //==================================================Command_ASCII_Process_UART()
         private void Command_ASCII_Process_UART()
         {
             string prefix = string.Empty;
+            //--------------------80A
+            if (m_sEntryTxt == "")
+            {
+                myRtbTermMessageLF("#E: Text entry is empty.");
+                return;
+            }
             prefix = m_sEntryTxt.Substring(0, 1);
+
 
             if (myGlobalBase.USBArray_RedirectDebugTerm == -1)        // Non Array Type Reception.
             {
@@ -9906,12 +10098,15 @@ namespace UDT_Term_FFT
                 new Point(891+offsetX, 610+offsetY)
             };
 
+            Point mainscreenloc = new Point(this.Location.X- offsetX, this.Location.Y);
+
             if (chLargeScreen.Checked == true)
             {
     
                 myGlobalBase.LINUX_isLargeScreenEnabled = true;
                 this.MaximumSize = newsize;
                 this.MinimumSize = newsize;
+                this.Location = mainscreenloc;
                 this.Size = newsize;
                 this.TabMaster.Location = newTabBox;
                 this.rtbTerm.MaximumSize = newTermsize;
@@ -9939,8 +10134,6 @@ namespace UDT_Term_FFT
                 this.btnImport.Location = defaultButton[3];
             }
         }
-
-
         #endregion
 
         //##############################################################################################################

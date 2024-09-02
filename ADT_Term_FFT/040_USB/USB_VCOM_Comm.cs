@@ -496,6 +496,21 @@ namespace UDT_Term_FFT
         }
         #endregion
 
+        #region //==================================================VCOM_Message_Send_Linux
+        //==========================================================
+        // Purpose  : Send Message.
+        // Input    : String message, please avoid the use of '\r' ASCII.
+        // Output   : 
+        //==========================================================
+        public void VCOM_Message_Send_Linux(string sTX)
+        {
+            //if (sTX.Contains("\n") == false)
+            //    sTX = sTX + "\n";                     // 5B: 5/2/17 RGP: Change from \r\n to \n only (no need for \r).                                             
+            serialPort1.Write(sTX);
+            Trace.WriteLine("-I: VCOM (String) Transmits Success :'" + sTX + "'");
+        }
+        #endregion
+
         //#####################################################################################################
         //###################################################################################### VCOM Array Device. 
         //#####################################################################################################

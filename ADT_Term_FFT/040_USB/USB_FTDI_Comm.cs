@@ -275,6 +275,37 @@ namespace UDT_Term_FFT
         }
         #endregion
 
+        #region //==================================================FTDI_Message_Send_Linux
+        //==========================================================
+        // Purpose  : Send Message.
+        // Input    : String message, please avoid the use of '\r' ASCII.
+        // Output   :  
+        //==========================================================
+        public void FTDI_Message_Send_Linux(string sTX)
+        {                                                               // This routine take place after the scan
+            uint numBytes = 0;
+            myUSB_Message_Manager.MessageTX = sTX;                             // For reference only.
+            //if (sTX.Contains("\n") == false)
+            //    sTX = sTX + "\n";                                           // 5B: 5/2/17 RGP: Change from \r\n to \n only (no need for \r).  
+            if (FTDI_Device.IsOpen == true)
+            {
+                //------------------------------------------------------Transmits
+                FTDI_Device.SetTimeouts(500, 500);                     // Set timeout to RX=500mS, TX=500mS force quit if expired, this avoid hanging.
+                FTDI_Ftstatus = FTDI_Device.Write(sTX, sTX.Length, ref numBytes);
+                if (FTDI_Ftstatus != FTDI.FT_STATUS.FT_OK)
+                {
+                    myMainProg.myRtbTermMessageLF("#ERR : FTDI Device Transmits Failures");
+                    return;
+                }
+                Trace.WriteLine("-INFO : FTDI Device Transmits Success :'" + sTX + "'");
+            }
+            else
+            {
+                myMainProg.myRtbTermMessageLF("#ERR : FTDI Device is not established");
+            }
+        }
+        #endregion
+
         //#####################################################################################################
         //###################################################################################### FTDI Misc
         //#####################################################################################################

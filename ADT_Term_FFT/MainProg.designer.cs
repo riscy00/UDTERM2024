@@ -1105,6 +1105,7 @@ namespace UDT_Term_FFT
             this.rtbTerm.TabIndex = 15;
             this.rtbTerm.Text = " ";
             this.rtbTerm.KeyDown += new System.Windows.Forms.KeyEventHandler(this.rtbTerm_KeyDown);
+            this.rtbTerm.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.rtbTerm_KeyPress);
             this.rtbTerm.MouseUp += new System.Windows.Forms.MouseEventHandler(this.rtbTerm_MouseUp);
             // 
             // cbImmExcuteCmdOption
