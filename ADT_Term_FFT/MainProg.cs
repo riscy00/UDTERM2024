@@ -1045,6 +1045,7 @@ namespace UDT_Term_FFT
         //##############################################################################################################
 
         #region//==================================================MsgBox_KeyPress Control for linux only!!
+
         private void rtbTerm_KeyPress(object sender, KeyPressEventArgs e)
         {
             //had to use this because the rtbTerm_KeyDown does not support lower case (amazingly retards)
@@ -1054,9 +1055,15 @@ namespace UDT_Term_FFT
             {
                 if (e.KeyChar == (char)Keys.Back && cInputEntryPointer > 0)
                 {
+                    Tools.rtb_StopRepaint(rtbTerm, rtbOEMx);
+                    rtbTerm.ScrollBars = RichTextBoxScrollBars.Vertical;
                     cInputEntryPointer--;
                     cInputEntry[cInputEntryPointer] = '\0';
-                    rtbTerm.Text = rtbTerm.Text.Substring(0, rtbTerm.Text.Length - 1);
+
+                    rtbTerm.Text = rtbTerm.Text.Remove(rtbTerm.TextLength - 1);
+                    rtbTerm.SelectionStart = rtbTerm.TextLength;
+                    rtbTerm.SelectionLength = 0;
+                    Tools.rtb_StartRepaint(rtbTerm, rtbOEMx);
                     e.Handled = true;
                 }
                 else
@@ -1075,9 +1082,14 @@ namespace UDT_Term_FFT
             {
                 if (e.KeyChar == (char)Keys.Back && cInputEntryPointer > 0)
                 {
+                    Tools.rtb_StopRepaint(rtbTerm, rtbOEMx);
                     cInputEntryPointer--;
                     cInputEntry[cInputEntryPointer] = '\0';
-                    rtbTerm.Text = rtbTerm.Text.Substring(0, rtbTerm.Text.Length - 1);
+
+                    rtbTerm.Text = rtbTerm.Text.Remove(rtbTerm.TextLength - 1);
+                    rtbTerm.SelectionStart = rtbTerm.TextLength;
+                    rtbTerm.SelectionLength = 0;
+                    Tools.rtb_StartRepaint(rtbTerm, rtbOEMx);
                     e.Handled = true;
                 }
             }
@@ -1094,79 +1106,19 @@ namespace UDT_Term_FFT
             {
                 switch (e.KeyData)
                 {
-                    case (Keys.Escape):
-                        {
-                            Trace.Write("-INFO: <ESC>");
-                            if (myGlobalBase.USB_SelectDeviceMode == (int)GlobalBase.eSerialDeviceSelect.USB_UART_FTDI)
-                            {
-                                //### Check if dsPIC33 is actually connected, if not reject command....this need review/optional.
-                                myUSBComm.FTDI_Message_Send("\x1b");
-                            }
-                            if (myGlobalBase.USB_SelectDeviceMode == (int)GlobalBase.eSerialDeviceSelect.USB_UART_VCOM)
-                            {
-                                myUSB_VCOM_Comm.VCOM_Message_Send("\x1b");
-                            }
-                            Terminal_Append_Request("\r\n:");
-                            return;
-                        }
-                    case (Keys.Down):
-                    case (Keys.Up):
-                        {
-                            e.SuppressKeyPress = true;
-                            if ((e.KeyData == Keys.Up) & (iCommandListPointer < iCommandListMax))
-                            {
-                                List<string> myList = rtbTerm.Lines.ToList();
-                                if (myList.Count > 0)
-                                {
-                                    Tools.rtb_StopRepaint(rtbTerm, rtbOEMx);
-                                    iCommandListPointer++;
-                                    myList.RemoveAt(myList.Count - 1);
-                                    rtbTerm.Lines = myList.ToArray();
-                                    rtbTerm.AppendText("\r\n");
-                                    if (sCommandList[iCommandListPointer] == null)    // if null, go back to previous.
-                                        iCommandListPointer = 0;
-                                    if (sCommandList[iCommandListPointer] != null)        // NB: Does not records DMFP or non-user command.
-                                    {
-                                        rtbTerm.AppendText(sCommandList[iCommandListPointer]);
-                                    }
-                                    //rtbTerm.Refresh();
-                                    Tools.rtb_StartRepaint(rtbTerm, rtbOEMx);
-                                }
-                            }
-                            if ((e.KeyData == Keys.Down))
-                            {
-                                List<string> myList = rtbTerm.Lines.ToList();
-                                if (myList.Count > 0)
-                                {
-                                    Tools.rtb_StopRepaint(rtbTerm, rtbOEMx);
-                                    iCommandListPointer--;
-                                    if (iCommandListPointer <= 0)
-                                        iCommandListPointer = 0;
-                                    myList.RemoveAt(myList.Count - 1);
-                                    rtbTerm.Lines = myList.ToArray();
-                                    rtbTerm.AppendText("\r\n");
-                                    if (sCommandList[iCommandListPointer] != null)
-                                    {
-                                        rtbTerm.AppendText(sCommandList[iCommandListPointer]);
-                                    }
-                                    //rtbTerm.Refresh();
-                                    Tools.rtb_StartRepaint(rtbTerm, rtbOEMx);
-                                }
-                            }
-                            return;
-                        }
                     case (Keys.Enter):
                         {
                             //-----------------------------------------Convert discrete key entry to string and clean up
                             e.SuppressKeyPress = true;
-                            cInputEntry[cInputEntryPointer] = '\r'; // end of line.
-                            cInputEntry[cInputEntryPointer+1] = '\n';
-                            cInputEntry[cInputEntryPointer+2] = '\0';
+                            cInputEntry[cInputEntryPointer] = '\r';         // end of line.
+                            cInputEntry[cInputEntryPointer + 1] = '\n';
+                            cInputEntry[cInputEntryPointer + 2] = '\0';
                             string sEntryTxtCaptureX = new string(cInputEntry);
-                            Array.Clear(cInputEntry, '\0', cInputEntryPointer+1);
+                            //---------------reset buffer for next char entry
+                            Array.Clear(cInputEntry, '\0', cInputEntryPointer + 1);
                             cInputEntryPointer = 0;
                             //------------------------------------------Shift command text buffer. 
-                            int i = iCommandListMax-1;
+                            int i = iCommandListMax - 1;
                             while (i > 0)
                             {
                                 sCommandList[i] = sCommandList[i - 1];
@@ -1182,14 +1134,128 @@ namespace UDT_Term_FFT
                             m_sResponseTxt = string.Empty;
                             Command_ASCII_Process_Linux();
                             m_sEntryTxt = string.Empty;
+                            e.Handled = true;
                             break;
                         }
+                    case (Keys.Up):
+                        {
+                            e.SuppressKeyPress = true;
+                            if (iCommandListPointer < iCommandListMax)
+                            {
+                                Tools.rtb_StopRepaint(rtbTerm, rtbOEMx);
+                                //----------------------------Remove text
+                                if (iCommandListPointer != 0)   // if this is 1st up event then skip this since there no added text to remove. 
+                                {
+                                    for (int i = 0; i < sCommandList[iCommandListPointer].Length; i++)
+                                    {
+                                        char charitem = sCommandList[iCommandListPointer][i];
+                                        if (charitem == '\n' || charitem == '\r' || charitem == '\0')
+                                            break;
+                                        rtbTerm.Text = rtbTerm.Text.Remove(rtbTerm.TextLength - 1);
+                                    }
+                                }
+                                rtbTerm.SelectionStart = rtbTerm.TextLength;
+                                rtbTerm.SelectionLength = 0;
+                                iCommandListPointer++;
+                                if (sCommandList[iCommandListPointer] == null)    // if null, go back to previous.
+                                    iCommandListPointer = 0;
+                                if (sCommandList[iCommandListPointer] != null)        // NB: Does not records DMFP or non-user command.
+                                {
+                                    //---------------reset buffer for next char entry
+                                    Array.Clear(cInputEntry, '\0', cInputEntryPointer + 1);
+                                    cInputEntryPointer = 0;
+                                    //----------------
+                                    for (int i = 0; i < sCommandList[iCommandListPointer].Length; i++)
+                                    {
+                                        if (cInputEntryPointer < (cInputEntry.Length - 4))
+                                        {
+                                            char charToAppend = sCommandList[iCommandListPointer][i];
+                                            if (charToAppend == '\n' || charToAppend == '\r' || charToAppend == '\0')
+                                                break;
+                                            cInputEntry[cInputEntryPointer] = charToAppend;
+                                            rtbTerm.AppendText(cInputEntry[cInputEntryPointer].ToString());
+                                            cInputEntryPointer++;
+
+                                        }
+                                    }
+                                }
+                                Tools.rtb_StartRepaint(rtbTerm, rtbOEMx);
+                            }
+                            e.Handled = true;
+                            return;
+                        }
+                        case (Keys.Down):
+                        {
+                            e.SuppressKeyPress = true;
+
+                            if (iCommandListPointer < iCommandListMax)
+                            {
+                                Tools.rtb_StopRepaint(rtbTerm, rtbOEMx);
+                                //----------------------------Remove text
+                                for (int i = 0; i < sCommandList[iCommandListPointer].Length; i++)
+                                {
+                                    char charitem = sCommandList[iCommandListPointer][i];
+                                    if (charitem == '\n' || charitem == '\r' || charitem == '\0')
+                                        break;
+                                    rtbTerm.Text = rtbTerm.Text.Remove(rtbTerm.TextLength - 1);
+                                }
+                                rtbTerm.SelectionStart = rtbTerm.TextLength;
+                                rtbTerm.SelectionLength = 0;
+
+                                iCommandListPointer--;
+                                if (iCommandListPointer <= 0)
+                                    iCommandListPointer = 0;
+                                //-------------------------------------------------------
+                                if (sCommandList[iCommandListPointer] != null)        // NB: Does not records DMFP or non-user command.
+                                {
+                                    //---------------reset buffer for next char entry
+                                    Array.Clear(cInputEntry, '\0', cInputEntryPointer + 1);
+                                    cInputEntryPointer = 0;
+                                    //----------------
+                                    for (int i = 0; i < sCommandList[iCommandListPointer].Length; i++)
+                                    {
+                                        if (cInputEntryPointer < (cInputEntry.Length - 4))
+                                        {
+                                            char charToAppend = sCommandList[iCommandListPointer][i];
+                                            if (charToAppend == '\n' || charToAppend == '\r' || charToAppend == '\0')
+                                                break;
+                                            cInputEntry[cInputEntryPointer] = charToAppend;
+                                            rtbTerm.AppendText(cInputEntry[cInputEntryPointer].ToString());
+                                            cInputEntryPointer++;
+
+                                        }
+                                    }
+                                }
+                                Tools.rtb_StartRepaint(rtbTerm, rtbOEMx);
+                            }
+                            e.Handled = true;
+                            return;
+                        }
+                    case (Keys.Escape):
+                        {
+                            Trace.Write("-INFO: <ESC>");
+                            if (myGlobalBase.USB_SelectDeviceMode == (int)GlobalBase.eSerialDeviceSelect.USB_UART_FTDI)
+                            {
+                                //### Check if dsPIC33 is actually connected, if not reject command....this need review/optional.
+                                myUSBComm.FTDI_Message_Send("\x1b");
+                            }
+                            if (myGlobalBase.USB_SelectDeviceMode == (int)GlobalBase.eSerialDeviceSelect.USB_UART_VCOM)
+                            {
+                                myUSB_VCOM_Comm.VCOM_Message_Send("\x1b");
+                            }
+                            Terminal_Append_Request("\r\n:");
+                            e.Handled = true;
+                            return;
+                        }
+
+
                     case (Keys.Left):
                         {
                             if ((rtbTerm.SelectionStart - rtbTerm.GetFirstCharIndexOfCurrentLine()) == 0)
                             {
                                 e.SuppressKeyPress = true;                      // This suppress any claret moving up 
                             }
+                            e.Handled = true;
                             return;
                         }
                     default:
@@ -1208,6 +1274,7 @@ namespace UDT_Term_FFT
                 {
                     if (rtbTerm.SelectedText != "")
                         Clipboard.SetText(rtbTerm.SelectedText);
+                    e.Handled = true;
                 }
             }
             else
@@ -1228,6 +1295,7 @@ namespace UDT_Term_FFT
                                 myUSB_VCOM_Comm.VCOM_Message_Send("\x1b");
                             }
                             Terminal_Append_Request("\r\n:");
+                            e.Handled = true;
                             return;
                         }
                     case (Keys.Down):
@@ -1274,6 +1342,7 @@ namespace UDT_Term_FFT
                                     Tools.rtb_StartRepaint(rtbTerm, rtbOEMx);
                                 }
                             }
+                            e.Handled = true;
                             return;
                         }
                     case (Keys.Enter):
@@ -1305,6 +1374,7 @@ namespace UDT_Term_FFT
                             m_sEntryTxt = string.Empty;
                             bIsCommandEntered = false;
                             rtbTerm.ReadOnly = false;
+                            e.Handled = true;
                             break;
                         }
                     case (Keys.Left):
@@ -1330,6 +1400,7 @@ namespace UDT_Term_FFT
                 {
                     if (rtbTerm.SelectedText != "")
                         Clipboard.SetText(rtbTerm.SelectedText);
+                    e.Handled = true;
                 }
             }
             base.OnKeyDown(e);
